@@ -1,13 +1,35 @@
 import os
+import tkinter as tk
+from tkinter import filedialog
+
 
 def print_directory_contents(path, level=0, exclude_dirs=[]):
+    text = ''
     for child in os.listdir(path):
         child_path = os.path.join(path, child)
         prefix = '|-' if level > 0 else ''
-        print('    ' * level + prefix + child)
+        text += '    ' * level + prefix + child + '\n'
         if os.path.isdir(child_path) and child not in exclude_dirs:
-            print_directory_contents(child_path, level + 1, exclude_dirs)
+            text += print_directory_contents(child_path,
+                                             level + 1, exclude_dirs)
+    return text
 
-folder_path = r"C:\Users\Arya\Github\Tatsumaki-Bot"
-exclude_dirs = ['node_modules', 'venv', '.git', '__pycache__']
-print_directory_contents(folder_path, 0, exclude_dirs)
+
+def select_folder():
+    folder_path = filedialog.askdirectory()
+    exclude_dirs = ['node_modules', 'venv', '.venv', '.git', '__pycache__']
+    text = print_directory_contents(folder_path, 0, exclude_dirs)
+    text_box.delete('1.0', tk.END)
+    text_box.insert(tk.END, text)
+
+
+root = tk.Tk()
+root.title("Directory Contents")
+
+text_box = tk.Text(root)
+text_box.pack()
+
+select_button = tk.Button(root, text="Select Folder", command=select_folder)
+select_button.pack()
+
+root.mainloop()
