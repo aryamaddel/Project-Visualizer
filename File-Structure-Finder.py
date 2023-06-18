@@ -8,6 +8,6 @@ def print_directory_contents(path, level=0, exclude_dirs=[]):
         if os.path.isdir(child_path) and child not in exclude_dirs:
             print_directory_contents(child_path, level + 1, exclude_dirs)
 
-folder_path = "C:/Users/Arya/Github/Tatsumaki-Bot"
+folder_path = r"C:\Users\Arya\Github\Tatsumaki-Bot"
 exclude_dirs = ['node_modules', 'venv', '.git', '__pycache__']
 print_directory_contents(folder_path, 0, exclude_dirs)
